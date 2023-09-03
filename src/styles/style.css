@@ -9,13 +9,43 @@ html, body{
     background-color: #ddd;
 }
 
+/* header  */
 header{
     background: #0c3a6c;
     color: whitesmoke;
-    padding: 16px;
-    font-size: 2rem;
-    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    height: 50px;
+    align-items: center;
 }
+
+header .logo{
+    letter-spacing: 3px;
+}
+
+header ul{
+    /* background-color: pink; */
+    display: flex;
+    list-style: none;
+    width: 100%;
+    justify-content: space-between;
+}
+
+header ul li{
+    margin-right: 20px;
+}
+
+header a{
+    text-decoration: none;
+    color: wheat;
+}
+
+header a:hover{
+    color: rgb(96, 152, 236);
+}
+
+
+/* akhir dari header  */
 
 main {
     max-width: 800px;
@@ -97,6 +127,7 @@ main {
 
 .notes-lists{
     width: 100%;
+    margin-bottom: 50px;
     /* background-color: white; */
     /* background-color: pink; */
     /* border: 1px solid black; */
@@ -112,10 +143,19 @@ main {
     /* margin: 10px 0; */
     display: flex;
     flex-direction: column;
-    /* align-items: center;
-    justify-content: center;
-    height: 300px; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* height: 300px;    */
+    height: 100%;
     background-color: white;
+}
+
+.notes a{
+    text-decoration: none;
+}
+
+.notes a:hover{
+    color: #3f8ad9;
 }
 
 .title-notes, .time-notes, .content-notes{
@@ -127,10 +167,9 @@ main {
     order: 1;
 }
 
-
 .time-notes{
     order: 2;
-    font-size: 0.5rem;
+    font-size: 0.7rem;
     padding: 0 10px;
     color: gray;
 }
@@ -147,6 +186,14 @@ main {
     order: 4;
     display: flex;
     flex-direction: row;
+    position: fixed;
+    /* bottom: 0px; */
+}
+
+.page-note-found{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .notes button{
@@ -157,10 +204,15 @@ main {
     cursor: pointer;
 }
 
-.red{
-    border: 1px solid gray;
-    background-color: transparent;
-    color: red;
+.notes-detail{
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+.notes-detail p{
+    margin-top: 15px;
 }
 
 .green{
@@ -173,10 +225,72 @@ main {
     margin: 15px 0;
 }
 
+.floatDelete{
+    position:fixed;
+	width:50px;
+	height:50px;
+	bottom:80px;
+	right:100px;
+	background-color:red;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+    border: none;
+    cursor: pointer;
+}
+
+.floatArchive{
+    position:fixed;
+	width:50px;
+	height:50px;
+	bottom:80px;
+	right:40px;
+	background-color:aquamarine;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+    border: none;
+    cursor: pointer;
+}
+
+.floatAdd{
+    position:fixed;
+	width:50px;
+	height:50px;
+	bottom:80px;
+	right:40px;
+	background-color:#0C9;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+    border: none;
+    cursor: pointer;
+}
+
+.floatBack{
+    position:fixed;
+	width:50px;
+	height:50px;
+    left: 30px;
+	background-color:#0C9;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+    border: none;
+    cursor: pointer;
+}
+
 footer{
     padding: 20px;
     background-color: #0c3a6c;
     color: whitesmoke;
     text-align: center;
     font-weight: bold;
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
 }

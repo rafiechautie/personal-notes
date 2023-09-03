@@ -1,7 +1,7 @@
 function Footer(){
     return(
         <footer>
-            <p>Belajar Membuat Front-End Web untuk Pemula &#169; 2019, Dicoding Academy</p>
+            <p>Belajar Membuat Single Page Application Dengan React &#169; 2019, Muhammad Rafie Chautie</p>
         </footer>
     )
 }

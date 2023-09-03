@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
 class FormAdd extends React.Component{
     constructor(props){
@@ -57,5 +58,9 @@ class FormAdd extends React.Component{
         )
     }
 }
+
+FormAdd.propTypes = {
+    addNote: PropTypes.func.isRequired,
+  }
 
 export default FormAdd;

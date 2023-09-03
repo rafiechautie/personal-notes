@@ -1,17 +1,20 @@
-import DeleteButton from "./DeleteButton";
-import ArchivedButton from "./ArchiveButton";
+import PropTypes from 'prop-types';
 import NoteItemBody from "./NoteItemBody";
+import { Link } from "react-router-dom";
 
-function NoteItem({title, body, createdAt, id, onDelete, onArchived, isArchived}){
+function NoteItem({title, body, createdAt, id}){
     return(
         <div className="notes">
-            <NoteItemBody title={title} body={body} createdAt={createdAt}/>
-            <div className="button-group">
-                <DeleteButton id={id} onDelete={onDelete}/>
-                <ArchivedButton id={id} onArchived={onArchived} isArchived={isArchived}/>
-            </div>
+            <Link to={`/notes/${id}`}><NoteItemBody title={title} body={body} createdAt={createdAt}/></Link>
         </div>
     )
+}
+
+NoteItem.propTypes = {
+    title: PropTypes.string.isRequired,
+    body:PropTypes.string.isRequired,
+    createdAt:PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired
 }
 
 export default NoteItem;
