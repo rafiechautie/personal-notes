@@ -5,66 +5,73 @@ import { Link } from "react-router-dom";
 import NoteList from "../components/NoteList";
 import { FaPlus } from "react-icons/fa6";
 import AddButton from "../components/AddButton"
-import { getActiveNotes } from "../utils/model"
+import { getActiveNotes } from "../utils/api"
 import SearchInput from "../components/SearchInput";
+// import LocaleContext, { LocaleConsumer } from '../contexts/LocaleContext';
+// import { ToastContainer } from "react-toastify";
 
-function HomePageWrapper() {
+function HomePage(){
     const [searchParams, setSearchParams] = useSearchParams();
+    const [notes, setNotes] = React.useState([]);
+    const [keyword, setKeyword] = React.useState(() => {
+        return searchParams.get('keyword') || '';
+    });
 
-    const keyword = searchParams.get('keyword');
+    // const { locale } = React.useContext(LocaleContext)
 
-    function changeSearchParams(keyword) {
-      setSearchParams({ keyword });
-    }
-   
-    return <HomePage defaultKeyword={keyword} keywordChange={changeSearchParams} />
-}
-
-class HomePage extends React.Component{
-
-    constructor(props){
-        super(props)
-
-        this.state = {
-            notes: getActiveNotes(),
-            keyword: props.defaultKeyword || '',
+    React.useEffect(() => {
+        const getData = async() => {
+            const { data } = await getActiveNotes();
+            setNotes(data);
         }
 
-        this.onKeywordChangeHandler = this.onKeywordChangeHandler.bind(this);
+        getData();
+
+        return () => {
+            setNotes(null)
+        }
+    }, []);
+
+    const onKeywordChangeHandler = (keyword) => {
+        setKeyword(keyword);
+        setSearchParams({ keyword });
     }
 
-    onKeywordChangeHandler(keyword) {
-        this.setState(() => {
-          return {
-            keyword,
-          }
-        });
-        this.props.keywordChange(keyword);
-      }
+    const filteredNotes = notes.filter((note) => (
+        note.title.toLocaleLowerCase().includes(keyword.toLocaleLowerCase())
+    ));
 
-    render(){
-
-        const notes = this.state.notes.filter((note) => {
-            return note.title.toLowerCase().includes(
-                this.state.keyword.toLowerCase()
-            );
-        });
-
-        return(
-            <>
-                <h3 className="text-archive">Catatan Aktif</h3>
-                <SearchInput  keyword={this.state.keyword} keywordChange={this.onKeywordChangeHandler}/>
-                {
-                    notes.length > 0 
-                    ? <NoteList notes={notes}/>
-                    : <p>Catatan Tidak ada</p>
-                }
-                <Link to={'/add'}>
-                    <AddButton icon={<FaPlus />}/>
-                </Link>
-            </> 
-        )
+    if (notes === null) {
+        return <p>Loading...</p>;
     }
+
+    return(
+        <>
+            <h3 className="text-archive">Catatan Aktif</h3>
+            <SearchInput  keyword={keyword} keywordChange={onKeywordChangeHandler}/>
+            {
+            filteredNotes.length > 0 
+                ? <NoteList notes={filteredNotes}/>
+                : <p>Catatan Tidak ada</p>
+            }
+            {/* <ToastContainer
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                /> */}
+            <Link to={'/add'}>
+                 <AddButton icon={<FaPlus />}/>
+            </Link>
+        </> 
+    )
+
 }
 
 HomePage.propTypes = {
@@ -72,4 +79,4 @@ HomePage.propTypes = {
     keywordChange: PropTypes.func.isRequired,
 }
 
-export default HomePageWrapper;
+export default HomePage;

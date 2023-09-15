@@ -1,81 +1,86 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { archiveNote, deleteNote, getNote, unarchiveNote } from '../utils/model';
+import { archiveNote, deleteNote, getNote, unarchiveNote } from '../utils/api'
+// import { archiveNote, deleteNote, getNote, unarchiveNote } from '../utils/model';
 import DetailNoteItem from '../components/DetailNoteItem';
 import Swal from 'sweetalert2';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-function DetailPageWrapper(){
+function DetailPage(){
     const { id } = useParams();
     const navigate = useNavigate();
+    const [notes, setNotes] = React.useState([]);
 
-    function onDeleteNoteHandler(id){
+    React.useEffect(() => {
+        const getData = async(id) => {
+            const { data } = await getNote(id);
+            setNotes(data)
+        }
+        getData(id)
+    }, [id]);
+
+
+    const onDeleteNoteHandler = async (id) => {
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to reverd this!",
+            title: 'Kamu yakin ingin hapus catatan ini?',
+            text: "Kamu bisa batalin lohh kalo kamu masih peduli!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#28a745',
+            confirmButtonText: 'Gak peduli',
+            cancelButtonText: 'Aku masih peduli',
+        }).then(async (result) => {
             if(result.isConfirmed){
-                deleteNote(id);
+                await deleteNote(id)
                 navigate('/');
                 Swal.fire({
                     icon: 'success',
-                    title: 'Your note has been deleted',
+                    title: 'Kenangan sudah terhapus, jangan sedih aku selalu disisimu!',
                     showConfirmButton: false,
-                    timer: 1500
-                })
+                    timer: 4000,
+                });
             }
         })
     }
 
-    function onArchiveNoteHandler(id) {
-        archiveNote(id);
+    const onArchiveNoteHandler = async(id) => {
+        await archiveNote(id);
+        toast.success('1 catatan difavoritkan', {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+        });
         navigate('/');
     }
-    
-    function onUnArchiveNoteHandler(id) {
-        unarchiveNote(id);
-        navigate('/archive');
+
+    const onUnarchiveNoteHandler = async(id) => {
+        await unarchiveNote(id);
+        navigate('/archived');
+    }
+
+    if(notes === undefined || notes === null){
+        return<p>Catatan tidak ditemukan</p>
     }
 
     return(
-        <DetailPage
-            id={id}
-            onDelete={onDeleteNoteHandler}
+        <section className='detail-note'>
+        <DetailNoteItem
+            onDelete={onDeleteNoteHandler} 
             onArchive={onArchiveNoteHandler}
-            onUnarchive={onUnArchiveNoteHandler} />
+            onUnarchive={onUnarchiveNoteHandler} 
+            {...notes}/>
+        </section>
     )
+
 }
 
-class DetailPage extends React.Component{
-    constructor(props){
-        super(props);
-        
-        this.state = {
-            notes: getNote(props.id)
-        }
-    }
-
-    render(){
-        if(this.state.notes === null){
-            return <p>Notes is not found</p>
-        }
-
-        return(
-            <section className='detail-note'>
-                <DetailNoteItem
-                    onDelete={this.props.onDelete} 
-                    onArchive={this.props.onArchive}
-                    onUnarchive={this.props.onUnarchive} 
-                    {...this.state.notes}/>
-            </section>
-        )
-    }
-}
 
 DetailPage.propTypes = {
     id: PropTypes.string.isRequired,
@@ -84,4 +89,4 @@ DetailPage.propTypes = {
     onUnarchive: PropTypes.func.isRequired,
 }
 
-export default DetailPageWrapper;
+export default DetailPage;

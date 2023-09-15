@@ -1,17 +1,27 @@
+import { toast } from "react-toastify";
 import BackButton from "../components/BackButton";
 import FormAdd from "../components/FormAdd";
-import { addNote } from "../utils/model";
+import { addNote } from "../utils/api";
 import { FaArrowLeft } from "react-icons/fa6";
 import { Link, useNavigate } from 'react-router-dom';
 
 function AddNote(){
     const navigate = useNavigate();
 
-    function onAddNoteHandler(note){
-        addNote(note)
+    const onAddNoteHandler = async (note) => {
+        await addNote(note);
+        toast.success('1 catatan ditambahkan', {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+        });
         navigate('/');
     }
-
 
     return(
         <>
