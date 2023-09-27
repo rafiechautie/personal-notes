@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { FaBoxArchive } from "react-icons/fa6";
+import { GoArchive } from "react-icons/go";
 
 function ArchivedButton({ id, onArchive, onUnarchive, type} ){
 
@@ -7,11 +7,11 @@ function ArchivedButton({ id, onArchive, onUnarchive, type} ){
 
     if(type === 'archive'){
         return(
-            <button className="floatArchive" type={type} onClick={() => onArchive(id)} >{ <FaBoxArchive size={25} />}</button>
+            <button className="floatArchive" type={type} onClick={() => onArchive(id)} >{ <GoArchive size={25} />}</button>
         )
     }else{
         return(
-            <button className="floatArchive" type={type} onClick={() => onUnarchive(id)} >{ <FaBoxArchive size={25} />}</button>
+            <button className="floatArchive" type={type} onClick={() => onUnarchive(id)} >{ <GoArchive size={25} />}</button>
         )
     }
 }

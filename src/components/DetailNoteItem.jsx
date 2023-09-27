@@ -25,11 +25,11 @@ function DetailNoteItem({id, title, createdAt, body, archived, onDelete, onArchi
 }
 
 DetailNoteItem.propTypes = {
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    createdAt: PropTypes.string.isRequired,
-    body: PropTypes.string.isRequired,
-    archived: PropTypes.bool.isRequired,
+    id: PropTypes.string,
+    title: PropTypes.string,
+    createdAt: PropTypes.string,
+    body: PropTypes.string,
+    archived: PropTypes.bool,
     onDelete: PropTypes.func.isRequired,
     onArchive: PropTypes.func.isRequired,
     onUnarchive: PropTypes.func.isRequired

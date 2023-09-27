@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { archiveNote, deleteNote, getNote, unarchiveNote } from '../utils/api'
 // import { archiveNote, deleteNote, getNote, unarchiveNote } from '../utils/model';
 import DetailNoteItem from '../components/DetailNoteItem';
@@ -23,21 +22,21 @@ function DetailPage(){
 
     const onDeleteNoteHandler = async (id) => {
         Swal.fire({
-            title: 'Kamu yakin ingin hapus catatan ini?',
-            text: "Kamu bisa batalin lohh kalo kamu masih peduli!",
+            title: 'Ingin Menghapus Catatan ini?',
+            text: "Apakah Kamu yakin?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#28a745',
-            confirmButtonText: 'Gak peduli',
-            cancelButtonText: 'Aku masih peduli',
+            confirmButtonText: 'Iya',
+            cancelButtonText: 'Tidak',
         }).then(async (result) => {
             if(result.isConfirmed){
                 await deleteNote(id)
                 navigate('/');
                 Swal.fire({
                     icon: 'success',
-                    title: 'Kenangan sudah terhapus, jangan sedih aku selalu disisimu!',
+                    title: 'Catatan kamu sukses terhapus',
                     showConfirmButton: false,
                     timer: 4000,
                 });
@@ -62,11 +61,11 @@ function DetailPage(){
 
     const onUnarchiveNoteHandler = async(id) => {
         await unarchiveNote(id);
-        navigate('/archived');
+        navigate('/archive');
     }
 
     if(notes === undefined || notes === null){
-        return<p>Catatan tidak ditemukan</p>
+        return null;
     }
 
     return(
@@ -82,11 +81,5 @@ function DetailPage(){
 }
 
 
-DetailPage.propTypes = {
-    id: PropTypes.string.isRequired,
-    onDelete: PropTypes.func.isRequired,
-    onArchive: PropTypes.func.isRequired,
-    onUnarchive: PropTypes.func.isRequired,
-}
 
 export default DetailPage;

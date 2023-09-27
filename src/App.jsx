@@ -1,17 +1,18 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Navigation from "./components/Navigation";
-import Footer from "./components/Footer";
 import AddNote from "./pages/AddNote";
 import HomePage from "./pages/HomePage"
 import ArchivePage from "./pages/ArchivePage"
 import DetailPage from "./pages/DetailPage"
 import NotFoundPage from "./pages/NoteFoundPage";
 import RegisterPage from "./pages/RegisterPage"
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LoginPage from "./pages/LoginPage";
 import { getUserLogged, putAccessToken } from "./utils/api";
 import Swal from "sweetalert2";
 import LocaleContext from "./contexts/LocaleContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
+
 
 function App(){
     const navigate = useNavigate();
@@ -20,6 +21,16 @@ function App(){
     const [locale, setLocale] = React.useState(() => {
         return localStorage.getItem('locale') || 'id';
     })
+    const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light')
+
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', theme)
+        localStorage.setItem('theme', theme)
+    }, [theme])
+
+    const toggleTheme = () => {
+        setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'))
+    }
 
     React.useEffect(() => {
         const getData = async () => {
@@ -38,16 +49,18 @@ function App(){
         setAuthedUser(data);
     }
 
+    
+
     const onLogout = () => {
         Swal.fire({
-          title: 'Kamu kenapa? Yakin ingin pergi?',
-          text: "Aku gak mau kamu pergi, aku ingin bersama kamu terus!",
+          title: 'Ingin Logout?',
+          text: "Apakah kamu yakin?",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#d33',
           cancelButtonColor: '#28a745',
-          confirmButtonText: 'Tetap pergi',
-          cancelButtonText: 'Tetap bersama',
+          confirmButtonText: 'Iya',
+          cancelButtonText: 'Batal',
         }).then((result) => {
           if (result.isConfirmed) {
             setAuthedUser(null);
@@ -55,8 +68,8 @@ function App(){
             navigate('/login');
             Swal.fire({
               icon: 'success',
-              title: 'HeyCa!! Selalu MenantiMu!',
-              text: "Aku akan selalu ada untukmu dan selalu merindukanmu!",
+              title: 'Berhasil Logout!',
+              text: "Sampai ketemu kembali!",
               showConfirmButton: true,
             });
           }
@@ -82,23 +95,29 @@ function App(){
         return null;
     }
 
+
+
+
     //jika user belom login
     if(authedUser === null){
         return(
+            <ThemeProvider value={{ theme, toggleTheme }}>
             <LocaleContext.Provider value={localeContextValue}>
-                <Navigation />
+                <Navigation isLogin={authedUser}/>
                 <main>
                     <Routes>
-                        <Route path="/login" element={<LoginPage loginSuccess={onLoginSuccess} />} />
+                        <Route path="/*" element={<LoginPage loginSuccess={onLoginSuccess} />} />
                         <Route path="/register" element={<RegisterPage/>} />
-                        <Route path="*" element={<NotFoundPage />} />
                     </Routes>
                 </main>
             </LocaleContext.Provider>
+            </ThemeProvider>
+            
         )
     }
 
     return(
+        <ThemeProvider  value={{ theme, toggleTheme }}>
         <LocaleContext.Provider value={localeContextValue}>
             <Navigation logout={onLogout}/>
             <main>
@@ -110,8 +129,9 @@ function App(){
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </main>
-            {/* <Footer/> */}
         </LocaleContext.Provider>
+        </ThemeProvider>
+        
     )
 }
 

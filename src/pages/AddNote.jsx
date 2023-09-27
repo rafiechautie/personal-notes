@@ -1,12 +1,14 @@
 import { toast } from "react-toastify";
-import BackButton from "../components/BackButton";
 import FormAdd from "../components/FormAdd";
 import { addNote } from "../utils/api";
-import { FaArrowLeft } from "react-icons/fa6";
+import LocaleContext from "../contexts/LocaleContext";
 import { Link, useNavigate } from 'react-router-dom';
+import React from "react";
+
 
 function AddNote(){
     const navigate = useNavigate();
+    const { locale } = React.useContext(LocaleContext)
 
     const onAddNoteHandler = async (note) => {
         await addNote(note);
@@ -25,8 +27,12 @@ function AddNote(){
 
     return(
         <>
-            <Link to={'/'}>
-                <BackButton icon={<FaArrowLeft />}/>
+            <Link to={'/'} className="floatBack">
+            {
+                    locale === 'id'
+                    ? 'Kembali'
+                    : 'Back'
+                }
             </Link>
             <FormAdd addNote={onAddNoteHandler}/>
         </>

@@ -1,12 +1,10 @@
 import React from "react";
-import PropTypes from 'prop-types';
 import { getArchivedNotes } from "../utils/api";
 import { useSearchParams } from 'react-router-dom';
 import SearchInput from "../components/SearchInput";
 import NoteList from "../components/NoteList";
 import { Link } from "react-router-dom";
-import AddButton from "../components/AddButton";
-import { FaPlus } from "react-icons/fa6";
+import LocaleContext from "../contexts/LocaleContext";
 
 function ArchivePage(){
     const [searchParams, setSearchParams] = useSearchParams();
@@ -14,6 +12,7 @@ function ArchivePage(){
     const [keyword, setKeyword] = React.useState(() => {
         return searchParams.get('keyword') || '';
     });
+    const { locale } = React.useContext(LocaleContext)
 
     React.useEffect(() => {
         const getData = async () => {
@@ -34,23 +33,35 @@ function ArchivePage(){
 
     return(
         <>
-            <h3 className="text-archive">Catatan Arsip</h3>
+            <h3 className="text-archive">
+                {
+                    locale === 'id'
+                    ? 'Catatan Arsip'
+                    : 'Archive Notes'
+                }
+            </h3>
             <SearchInput  keyword={keyword} keywordChange={onKeywordChangeHandler}/>
             {
                 filteredNotes.length > 0 
                 ? <NoteList notes={filteredNotes}/>
-                : <p>Catatan yang disimpan tidak ada</p>
+                : <p>
+                    {
+                        locale === 'id'
+                        ? 'Catatan yang disimpan tidak ada'
+                        : 'There are no archive notes'
+                    }
+                </p>
             }
-            <Link to={'/add'}>
-                <AddButton icon={<FaPlus />}/>
+            <Link to={'/add'} className="floatAdd">
+                {
+                    locale === 'id'
+                    ? 'Tambah'
+                    : 'Add'
+                }
             </Link>
         </> 
     )
 }
 
-ArchivePage.PropTypes = {
-  defaultKeyword: PropTypes.string,
-  keywordChange: PropTypes.func.isRequired,
-}
 
 export default ArchivePage;

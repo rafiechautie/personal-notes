@@ -1,66 +1,80 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import useInput from '../hooks/useInput'
+import LocaleContext from "../contexts/LocaleContext";
 
-class FormAdd extends React.Component{
-    constructor(props){
-        super(props)
-
-        //inisiasi state
-        this.state = {
-            title: '',
-            body: '',
-        }
-
-        this.onTitleChangeEventHandler = this.onTitleChangeEventHandler.bind(this);
-        this.onBodyChangeEventeHandler = this.onBodyChangeEventeHandler.bind(this);
-        this.onSubmitEventHandler = this.onSubmitEventHandler.bind(this);
-    }
-
-    onTitleChangeEventHandler(e){
-        const maxChar = 50
-        this.setState(() => {
-            return{
-                title: e.target.value.slice(0, maxChar),
-            }
-        });
-    }
-
-    onBodyChangeEventeHandler(e){
-        this.setState(() => {
-            return{
-                body: e.target.value,
-            }
-        })
-    }
-
-    onSubmitEventHandler(e){
-        e.preventDefault();
-        this.props.addNote(this.state);
-    }
+function FormAddNote({ addNote }){
+    const [title, handleTitleChange] = useInput('');
+    const [body, handleBodyChange ] = useInput('');
+    const { locale } = React.useContext(LocaleContext)
+    const maxCharacterCount = 50;
 
     
-    render(){
-        const maxChar = 50
-        return(
-            <section className="input-section">
-                <h2>Buat Catatan</h2>
-                <p className="maximal-text">Sisa Karakter: {maxChar - this.state.title.length}</p>
-                <form className="form-add" onSubmit={this.onSubmitEventHandler}>
-                    <div className="form-group">
-                        <input type="text" placeholder="ini adalah judul..." value={this.state.title} onChange={this.onTitleChangeEventHandler}/>
-                    </div>
-                    <div className="form-group">
-                        <textarea name="" id="" cols="30" rows="10" placeholder="Tuliskan Catatanmu di sini..." onChange={this.onBodyChangeEventeHandler} value={this.state.body}></textarea>
-                    </div>
-                    <button>Buat</button>
-                </form>
-            </section>
-        )
+
+    const onSubmitEventHandler = (e) => {
+      e.preventDefault();
+      addNote({
+        title, body
+      });
     }
+
+    return(
+      <section className="input-section">
+          <h2>
+            {
+              locale === 'id'
+              ? 'Buat Catatan'
+              : 'Create Note'
+            }
+          </h2>
+            <p className="maximal-text">Sisa Karakter: {maxCharacterCount - title.length}</p>
+            <form className="form-add" onSubmit={onSubmitEventHandler}>
+                <div className="form-group">
+                    <input 
+                    type="text"
+                    placeholder={
+                      locale === 'id'
+                      ? 'Masukkan judul catatanmu...'
+                      : 'Input title note...'
+                    }
+                    value={title}
+                    onChange={ (e) =>{
+                       const inputValue = e.target.value;
+                       if(inputValue.length <= maxCharacterCount){
+                          handleTitleChange(e)
+                       }
+                    }}
+                    required
+                    />
+                </div>
+                <div className="form-group">
+                    <textarea 
+                      cols="30"
+                      rows="10" 
+                      placeholder={
+                        locale === 'id'
+                        ? 'Tuliskan catatanmu di sini...'
+                        : 'Input you\'re notes here...'
+                      } 
+                      onChange={handleBodyChange} 
+                      value={body}
+                      required></textarea>
+                </div>
+                <button>
+                  {
+                    locale === 'id'
+                    ? 'Tambah Catatan'
+                    : 'Add Note'
+                  }
+                </button>
+            </form>
+        </section>
+    )
 }
 
-FormAdd.propTypes = {
+
+FormAddNote.propTypes = {
     addNote: PropTypes.func.isRequired,
   }
 
-export default FormAdd;
+export default FormAddNote;

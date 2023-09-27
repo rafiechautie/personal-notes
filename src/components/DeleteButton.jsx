@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-import { FaDeleteLeft } from "react-icons/fa6";
+import { GoTrash } from "react-icons/go";
 
 function DeleteButton({ id, onDelete} ){
-    return <button className="floatDelete" onClick={() => onDelete(id)}>{ <FaDeleteLeft size={25} />}</button>
+    return <button className="floatDelete" onClick={() => onDelete(id)}>{ <GoTrash size={25} />}</button>
 }
 
 DeleteButton.propTypes = {

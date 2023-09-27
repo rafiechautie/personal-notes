@@ -5,9 +5,10 @@ import App from './App';
 
 import './styles/style.css';
 
+
 const root = createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
-        <App/>
+    <App/>
     </BrowserRouter>
 );

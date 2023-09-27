@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom"
 import { login } from "../utils/api";
 import LoginInput from "../components/LoginInput";
 import AuthImage from "../components/AuthImage";
+import React from 'react';
+import LocaleContext from '../contexts/LocaleContext';
 
 function LoginPage({ loginSuccess }){
     const navigate = useNavigate();
+    const { locale } = React.useContext(LocaleContext)
     
     async function onLogin({email, password}){
         const {error, data} = await login({email, password})
@@ -23,7 +26,13 @@ function LoginPage({ loginSuccess }){
                 <AuthImage img="signin-image.jpg" />
 
                     <div className="signin-form">
-                        <h2 className="form-title">Sign In</h2>
+                        <h2 className="form-title">
+                            {
+                                locale === 'id'
+                                ? 'Halaman Login'
+                                : 'Sign In Page'
+                            }
+                        </h2>
                         <LoginInput login={onLogin}/>
                     </div>
                 </div>

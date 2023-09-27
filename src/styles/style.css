@@ -5,23 +5,37 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+    background: var(--background-color);
+    color: var(--font-color);
 }
+
+:root {
+    --font-color: #333;
+    --background-color: #fffffe;
+    --color-a: #333;
+    --border-color: #333;
+    --background-button: #3da9fc;
+  }
 
 [data-theme='dark'] {
-    --font-color: #eee;
+    --font-color: #fffffe;
     --background-color: #333;
+    --color-a: #fffffe;
+    --border-color: #fffffe;
+    --background-button: #3da9fc;
 }
-
+   
 html, body{
     font-family: 'Open Sans', sans-serif;
-    background-color: #fffffe;
+    background-color: var(--background-color);
+    color: var(--font-color);
 }
-
 
 
 /* header  */
 header{
-    background: #fffffe;
+    background-color: var(--background-color);
+    color: var(--font-color);
     display: flex;
     justify-content: space-around;
     height: 50px;
@@ -34,6 +48,7 @@ header .logo a{
     letter-spacing: 5px;
     font-family: 'Caveat Brush', cursive;
     font-size: 1.5rem;
+    color: var(--font-color);
 }
 
 header nav ul{
@@ -45,29 +60,43 @@ header nav ul{
 
 header ul li{
     margin-right: 20px;
+    background: var(--background-color);
+    color: var(--font-color);
 }
 
 header ul li .archived{
     display: flex;
     justify-content: center;
-    background-color: #fffffe;
 }
 
 header ul li a{
     text-decoration: none;
+    padding: 0;
     font-size: 0.9em;
+    background: var(--color-a);
 }
 
 header ul li .btnDarkMode{
     border: none;
-    background-color: #fffffe;
+    background: var(--background-color);
+    /* background-color: #0c3a6c; */
+    color: var(--font-color);
     cursor: pointer;
 }
 
 header ul li .btnSignOut{
     border: none;
-    background-color: #fffffe;
+    background: var(--background-color);
+    color: var(--font-color);
     cursor: pointer;
+}
+
+header ul li .btnTranslate{
+    border: none;
+    background: var(--background-color);
+    color: var(--font-color);
+    cursor: pointer;
+    font-size: 18px;
 }
 
 header a:hover{
@@ -82,13 +111,13 @@ main {
     width: 80%;
     margin: 0 auto;
     padding: 16px;
-    background-color: #fffffe;
+    background-color: var(--background-color);
 }
 
 .input-section{
     /* width: 80%; */
-    background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    background-color: var(--background-color);
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     padding: 20px;
     margin: 2rem auto;
@@ -98,7 +127,7 @@ main {
 }
 
 .input-section .maximal-text{
-    color: gray;
+    color: var(--font-color);
     display: block;
     width: 100%;
     text-align: end;
@@ -117,7 +146,6 @@ main {
     color: white;
     border: 0;
     border-radius: 5px;
-    /* display: block; */
     width: 100%;
     padding: 10px;
     cursor: pointer;
@@ -128,7 +156,7 @@ main {
     padding: 8px;
     border-radius: 5px;
     display: block;
-    border: 1px solid gray;
+    border: 1px solid var(--border-color);
 }
 
 .search-section{
@@ -142,12 +170,6 @@ main {
     align-items: center;
 }
 
-.search-section  {
-    padding: 16px;   
-    width: 100%;
-    background-color: white;
-}
-
 .search-section  > .input-search{
     width: 100%;
     padding: 10px;
@@ -157,24 +179,21 @@ main {
 
 .notes-lists{
     width: 100%;
-    margin-bottom: 50px;
+    /* height: 400px; */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 5px;
+    gap: 20px;
+    background-color: var(--background-color);
 }
 
 .notes{
-    border: 1px solid black;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
-    /* padding: 0 10px; */
-    /* margin: 10px 0; */
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
-    /* justify-content: center; */
-    /* height: 300px;    */
-    height: 100%;
-    background-color: white;
+    overflow: hidden;
+    /* height: 30%; */
+    /* background-color: white; */
 }
 
 .notes a{
@@ -187,7 +206,6 @@ main {
 
 .title-notes, .time-notes, .content-notes{
     padding: 10px ;
-    /* background-color: #0c3a6c; */
 }
 
 .title-notes{
@@ -206,7 +224,7 @@ main {
     font-weight: 200;
     letter-spacing: 1px;
     font-size: 0.8em;
-    height: 100%;
+    /* height: 100%; */
 }
 
 .button-group{
@@ -232,7 +250,7 @@ main {
 }
 
 .notes-detail{
-    background-color: white;
+    background-color: var(--background-color);
     padding: 20px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
@@ -290,27 +308,31 @@ main {
 	right:0;
     border-radius: 27px 0 0 0;
     border: none;
-	background-color: #3da9fc;
-	color:#fffffe;
-    padding: 12px 10px 1px 11px;
-    font-size: 38px;
+	background: var(--background-button);
+	color: var(--font-color);
+    padding: 22px 10px 10px 11px;
+    font-size: 20px;
+    text-decoration: none;
     z-index: 1;
 	text-align:center;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+    
 }
+
 
 .floatBack{
     position:fixed;
-	width:50px;
-	height:50px;
-    left: 30px;
-	background-color:#0C9;
-	color:#FFF;
-	border-radius:50px;
-	text-align:center;
-	box-shadow: 2px 2px 3px #999;
+	top: 60px;
+    left: 0;
+    border-radius: 0 27px 27px 0;
     border: none;
+	background: var(--background-button);
+	color: var(--font-color);
+	padding: 5px 15px 8px 11px;
+    font-size: 20px;
+    text-decoration: none;
+	text-align:center;
     cursor: pointer;
 }
 
@@ -328,7 +350,7 @@ footer{
 
 /* login */
 .container-signin{
-    /* background-color: #094067; */
+    padding-top: 50px;
     box-shadow: 0px 15px 16.83px 7.17px rgba(0, 0, 0, 0.05);
     border-radius: 20px;
 }
@@ -341,8 +363,8 @@ footer{
 
 .signin-image{
     margin-left: 20px;
-    /* margin-right: 20px; */
-    /* margin-top: 10px;  */
+    /* justify-content: center;
+    align-items: center; */
 }
 
 .signin-form{
@@ -399,7 +421,6 @@ figure{
 } 
 
 label{
-    /* background-color: #094067; */
     position: absolute;
     left: 0;
     top: 50%;
@@ -408,14 +429,12 @@ label{
 }
 
 input{
-    /* background-color: #094067; */
     width: 100%;
     display: block;
     border: 0;
     outline:0;
     border-bottom: 1px solid #999;
     padding: 6px 30px;
-    /* box-sizing: border-box; */
 }
 
 input:focus{
@@ -423,7 +442,6 @@ input:focus{
 }
 
 .signup-image-link{
-    /* background-color: #094067; */
     font-size: 14px;
     color: #222;
     display: block;
@@ -434,6 +452,10 @@ input:focus{
     color:#144e5c ;
 }
 
+.sign-link{
+    display: block;
+    text-align: center;
+}
 
 
 /* akhir dari login */
